@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cây đa Báo Nhân Dân</title>
+
+
+<!-- =====================================================
+     ƯU TIÊN TẢI MODEL-VIEWER
+====================================================== -->
+
+<link
+    rel="modulepreload"
+    href="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+
+<script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js">
+</script>
+
+
+<!-- =====================================================
+     ƯU TIÊN TẢI FILE 3D
+====================================================== -->
+
+<link
+    rel="preload"
+    href="cây đa.glb"
+    as="fetch"
+    crossorigin>
+
+
+<style>
+
+/* =====================================================
+   RESET
+====================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   KHỐI CHÍNH
+====================================================== */
+
+.cayda-container {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0 auto;
+    padding: 0;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   HAI NÚT
+====================================================== */
+
+.mode-switch {
+
+    position: absolute;
+
+    top: 8px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 10;
+
+    height: 34px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    margin: 0;
+    padding: 3px;
+
+    background: rgba(255,248,232,0.9);
+
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+
+.mode-button {
+
+    border: none;
+
+    background: transparent;
+
+    padding: 5px 17px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    color: #962d28;
+
+    cursor: pointer;
+
+    border-radius: 9px;
+
+    transition: 0.2s ease;
+}
+
+
+.mode-button:hover {
+
+    background: rgba(150,45,40,0.08);
+}
+
+
+.mode-button.active {
+
+    background: #962d28;
+
+    color: white;
+}
+
+
+/* =====================================================
+   NỘI DUNG
+====================================================== */
+
+.content-area {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+.tab-content {
+
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    background: transparent !important;
+}
+
+
+.tab-content.active {
+
+    display: block;
+}
+
+
+/* =====================================================
+   TÌM HIỂU
+====================================================== */
+
+.info-panel {
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    background: transparent;
+
+    overflow: hidden;
+}
+
+
+.info-panel img {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    border: 0;
+    outline: 0;
+
+    box-shadow: none;
+
+    object-fit: cover;
+
+    object-position: center top;
+}
+
+
+@media (max-aspect-ratio: 3/2), (min-aspect-ratio: 11/5) {
+
+    .info-panel {
+
+        background: #f3e4bd;
+    }
+
+
+    .info-panel img {
+
+        object-fit: contain;
+
+        object-position: center;
+    }
+}
+
+
+/* =====================================================
+   TRẢI NGHIỆM
+====================================================== */
+
+.experience-layout {
+
+    width: 78%;
+
+    max-width: 900px;
+
+    margin: 50px auto 0;
+
+    padding: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        145px;
+
+    gap: 14px;
+
+    align-items: stretch;
+
+    background: transparent !important;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   KHUNG 3D
+====================================================== */
+
+.model-box {
+
+    width: 100%;
+
+    height: 505px;
+
+    position: relative;
+
+    background: #f3e4bd;
+
+    border-radius: 9px;
+
+    overflow: hidden;
+
+    border: none;
+    outline: none;
+}
+
+
+/* =====================================================
+   MODEL-VIEWER
+====================================================== */
+
+model-viewer {
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    background-color: #f3e4bd;
+
+    --poster-color: #f3e4bd;
+
+    border: none;
+    outline: none;
+
+    contain: layout paint;
+}
+
+
+/* =====================================================
+   HƯỚNG DẪN
+====================================================== */
+
+.model-hint {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 10px;
+
+    transform: translateX(-50%);
+
+    padding: 5px 10px;
+
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.82);
+
+    color: #6e6250;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 9px;
+
+    white-space: nowrap;
+
+    pointer-events: none;
+}
+
+
+/* =====================================================
+   QR
+====================================================== */
+
+.qr-area {
+
+    width: 100%;
+    height: 505px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    background: transparent;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    outline: none;
+}
+
+
+.qr-placeholder {
+
+    width: 110px;
+    height: 110px;
+
+    flex-shrink: 0;
+
+    background: white;
+
+    border: 1px solid #d5c79f;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   ẢNH QR
+====================================================== */
+
+.qr-placeholder img {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+.qr-title {
+
+    margin: 0;
+    padding: 0;
+
+    color: #962d28;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 11px;
+
+    line-height: 1.25;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+.qr-description {
+
+    margin: 0;
+    padding: 0;
+
+    max-width: 135px;
+
+    color: #6f6658;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 8px;
+
+    line-height: 1.4;
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   TABLET
+====================================================== */
+
+@media (max-width: 900px) {
+
+    .mode-switch {
+
+        height: 32px;
+
+        margin-bottom: 6px;
+    }
+
+
+    .mode-button {
+
+        padding: 5px 14px;
+
+        font-size: 11px;
+    }
+
+
+    .experience-layout {
+
+        width: 82%;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            125px;
+
+        gap: 10px;
+    }
+
+
+    .model-box,
+    .qr-area {
+
+        height: 400px;
+    }
+
+
+    .qr-placeholder {
+
+        width: 90px;
+        height: 90px;
+    }
+
+
+    .qr-title {
+
+        font-size: 9px;
+    }
+
+
+    .qr-description {
+
+        font-size: 7px;
+
+        max-width: 115px;
+    }
+}
+
+
+/* =====================================================
+   ĐIỆN THOẠI
+====================================================== */
+
+@media (max-width: 600px) {
+
+    .mode-button {
+
+        padding: 4px 10px;
+
+        font-size: 9px;
+    }
+
+
+    .experience-layout {
+
+        width: 94%;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            90px;
+
+        gap: 7px;
+    }
+
+
+    .model-box,
+    .qr-area {
+
+        height: 270px;
+    }
+
+
+    .qr-placeholder {
+
+        width: 68px;
+        height: 68px;
+    }
+
+
+    .qr-title {
+
+        font-size: 7px;
+    }
+
+
+    .qr-description {
+
+        display: none;
+    }
+
+
+    .model-hint {
+
+        font-size: 7px;
+
+        bottom: 6px;
+
+        padding: 4px 6px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="cayda-container">
+
+
+    <!-- =====================================================
+         HAI NÚT
+    ====================================================== -->
+
+    <div class="mode-switch">
+
+        <button
+            class="mode-button active"
+            data-tab="info">
+
+            TÌM HIỂU
+
+        </button>
+
+
+        <button
+            class="mode-button"
+            data-tab="experience">
+
+            TRẢI NGHIỆM
+
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         NỘI DUNG
+    ====================================================== -->
+
+    <div class="content-area">
+
+
+        <!-- =================================================
+             TÌM HIỂU
+        ================================================== -->
+
+        <section
+            id="info"
+            class="tab-content active">
+
+            <div class="info-panel">
+
+                <img
+                    src="info timeline (1676 x 834 px).png"
+                    alt="Cây đa Báo Nhân Dân">
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             TRẢI NGHIỆM
+        ================================================== -->
+
+        <section
+            id="experience"
+            class="tab-content">
+
+            <div class="experience-layout">
+
+
+                <!-- =========================================
+                     MÔ HÌNH 3D
+                ========================================== -->
+
+                <div class="model-box">
+
+                    <model-viewer
+
+                        src="cầu thê húc 3d.glb"
+
+                        alt="Mô hình 3D cây đa Báo Nhân Dân"
+
+                        camera-controls
+
+                        touch-action="pan-y"
+
+                        interaction-prompt="auto"
+
+                        shadow-intensity="0.8"
+
+                        exposure="1"
+
+                        camera-orbit="0deg 75deg 105%"
+
+                        field-of-view="30deg"
+
+                        loading="eager"
+
+                        reveal="auto">
+
+                    </model-viewer>
+
+
+                    <div class="model-hint">
+
+                        Kéo để xoay · Cuộn để zoom
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     QR
+                =========================================== -->
+
+                <div class="qr-area">
+
+                    <div class="qr-placeholder">
+
+                        <img
+                            src="3d thê húc.jpg"
+                            alt="Mã QR">
+
+                    </div>
+
+
+                    <p class="qr-title">
+
+                        TRẢI NGHIỆM<br>
+                        TRÊN ĐIỆN THOẠI
+
+                    </p>
+
+
+                    <p class="qr-description">
+
+                        Quét mã QR để xem mô hình
+                        trên thiết bị di động.
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CHUYỂN TAB
+====================================================== */
+
+const buttons =
+    document.querySelectorAll(".mode-button");
+
+const tabs =
+    document.querySelectorAll(".tab-content");
+
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+
+        buttons.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+        tabs.forEach(tab => {
+
+            tab.classList.remove("active");
+
+        });
+
+
+        button.classList.add("active");
+
+
+        const target =
+            button.dataset.tab;
+
+
+        document
+            .getElementById(target)
+            .classList.add("active");
+
+    });
+
+});
+
+</script>
+
+
+</body>
+
+</html>
